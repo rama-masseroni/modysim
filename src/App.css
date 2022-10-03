@@ -1,5 +1,8 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between; */
 }
 
 .App-logo {
@@ -35,4 +38,11 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.body {
+  display: flex;
+  flex-direction: row;
+  margin: 0 20px 0 20px;
+  column-gap: 40px;
 }

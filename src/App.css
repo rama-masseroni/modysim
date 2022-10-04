@@ -2,6 +2,8 @@
   text-align: center;
   display: flex;
   flex-direction: column;
+  flex: 1;
+  min-height: 100vh;
   /* justify-content: space-between; */
 }
 
@@ -19,10 +21,11 @@
 .App-header {
   background-color: #282c34;
   min-height: 15%;
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
+  display: flex;
+  flex-direction: row;
   gap: 30px;
   align-items: center;
+  justify-content: space-around;
   font-size: calc(5px + 2vmin);
   color: white;
 }
@@ -43,6 +46,8 @@
 .body {
   display: flex;
   flex-direction: row;
+  flex: 1;
   margin: 0 20px 0 20px;
   column-gap: 40px;
+  min-height: max-content
 }

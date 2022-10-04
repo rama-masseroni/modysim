@@ -6,10 +6,10 @@ export default function App() {
     <div className="App">
       <Header />
       <div className="body">
-        <div style={{backgroundColor: "gray", flex: 1}}>
+        <div className="inputs" >
           <h2>test inputs</h2>
         </div>
-        <div style={{backgroundColor: "turquoise", flex: 3}}>
+        <div className="display">
           <h2>test display</h2>
         </div>
       </div>

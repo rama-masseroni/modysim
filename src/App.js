@@ -21,6 +21,8 @@ const ParameterSchema = Yup.object().shape({
   });
 
   const math = create(all);
+  let p = 0;
+  let q = 0;
   
 export default function App() {
   const [eigenvalue_1, setEV1] = useState([0, 0]);
@@ -51,6 +53,10 @@ export default function App() {
       matrix.set([1,0], values.c);
       matrix.set([1,1], values.d);
       console.log(matrix.valueOf());
+      p= math.trace(matrix);
+      q= math.det(matrix);
+      console.log('P = tr(A) = '+p);
+      console.log('Q = det(A) = '+q);
     },
   });
 

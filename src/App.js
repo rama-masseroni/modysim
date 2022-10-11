@@ -6,31 +6,34 @@ import { useEffect, useState } from "react";
 import { Button, Slider, TextField } from "@mui/material";
 import marks from "./marks";
 import { all, create, eigs, map } from "mathjs";
-import { EigenvalueDecomposition, Matrix } from 'ml-matrix';
-
+import { determinant, EigenvalueDecomposition, Matrix } from "ml-matrix";
 
 const math = create(all);
 let p = 0;
 let q = 0;
 
 export default function App() {
-  const [eigenvalues, setEVas] = useState();
-  const [eigenvectors, setEVes] = useState();
-
   const [a_value, setAValue] = useState(0);
   const [b_value, setBValue] = useState(0);
   const [c_value, setCValue] = useState(0);
   const [d_value, setDValue] = useState(0);
+  
+  const matrix = Matrix.zeros(2, 2);
+  
+  const [eigenvalues, setEVas] = useState();
+  
+  const eigenspace_1 = Matrix.zeros(2,2);
+  const eigenspace_2 = Matrix.zeros(2,2);
+  const [eigenvectors, setEVs] = useState();
 
   const [submission, setSubmission] = useState(false);
 
-  const matrix = Matrix.zeros(2,2);
   useEffect(() => {
     // setEV1();
     // setSubmission(false);
 
-    console.log(eigenvalues);
-    console.log(eigenvectors);
+    // console.log(eigenvalues);
+    // console.log(eigenvectors);
     // console.log('Autovector 2: ' + eigenvalue_2);
   }, [submission]);
 
@@ -62,7 +65,6 @@ export default function App() {
             />
 
             <Slider
-              className="slider"
               id="b"
               name="b"
               aria-label="b value"
@@ -79,7 +81,6 @@ export default function App() {
             />
 
             <Slider
-              className="slider"
               id="c"
               name="c"
               aria-label="c value"
@@ -96,7 +97,6 @@ export default function App() {
             />
 
             <Slider
-              className="slider"
               id="d"
               name="d"
               aria-label="d value"
@@ -116,26 +116,35 @@ export default function App() {
           <Button
             variant="contained"
             onClick={() => {
-              console.log(a_value);
-              console.log(b_value);
-              console.log(c_value);
-              console.log(d_value);
 
               matrix.set(0, 0, a_value);
               matrix.set(0, 1, b_value);
               matrix.set(1, 0, c_value);
               matrix.set(1, 1, d_value);
 
-              p = math.trace(matrix);
-              q = math.det(matrix);
-              console.log(p);
-              console.log(q);
+              p = matrix.trace();
+              q = determinant(matrix);
 
               // setEV1(math.eigs(matrix, 3));
 
-              let eigen_decomp =  new EigenvalueDecomposition(matrix);
-              setEVas(eigen_decomp.realEigenvalues);
-              setEVes(eigen_decomp.eigenvectorMatrix);
+              let eigen_decomp = new EigenvalueDecomposition(matrix);
+              let aux = eigen_decomp.realEigenvalues;
+              setEVas(aux);
+              // setEVes(eigen_decomp.eigenvectorMatrix);
+
+
+              eigenspace_1.add(matrix);
+              eigenspace_2.add(matrix);
+              
+              eigenspace_1.set(0,0, a_value - eigenvalues[0])
+              eigenspace_1.set(1,1, d_value - eigenvalues[0])
+              
+              eigenspace_2.set(0,0, a_value - eigenvalues[1])
+              eigenspace_2.set(1,1, d_value - eigenvalues[1])
+              
+              console.log(eigenspace_1);
+              console.log(eigenspace_2);
+              
               setSubmission(!submission);
             }}
             // onSubmit={formik.handleSubmit}
@@ -143,12 +152,45 @@ export default function App() {
             Calcular
           </Button>
           {!submission ? null : (
-            <>
+            <div className="autoparameters">
               <text>Autovalores</text>
               {eigenvalues}
               <text>Autovectores</text>
-              {eigenvectors.data}
-            </>
+              <div className="slider">
+                <Slider
+                  id="eigenvalue_1"
+                  name="eigenvalue_1"
+                  aria-label="eigenvalue_1 value"
+                  getAriaValueText={valueText}
+                  marks={marks}
+                  step={0.25}
+                  min={-5}
+                  max={5}
+                  defaultValue={0}
+                  onChange={(event, value) => console.log(value)}
+                  // error={formik.touched.a && formik.errors.a}
+                  // helperText={formik.touched.a && formik.errors.a}
+                  valueLabelDisplay="auto"
+                />
+
+                <Slider
+                  className="slider"
+                  id="eigenvalue_2"
+                  name="eigenvalue_2"
+                  aria-label="eigenvalue_2 value"
+                  getAriaValueText={valueText}
+                  marks={marks}
+                  step={0.25}
+                  min={-5}
+                  max={5}
+                  defaultValue={0}
+                  onChange={(event, value) => console.log(value)}
+                  // error={formik.touched.a && formik.errors.a}
+                  // helperText={formik.touched.a && formik.errors.a}
+                  valueLabelDisplay="auto"
+                />
+              </div>
+            </div>
           )}
         </div>
         <div className="display">

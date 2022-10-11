@@ -133,9 +133,9 @@ export default function App() {
 
               // setEV1(math.eigs(matrix, 3));
 
-              let eigentest =  new EigenvalueDecomposition(matrix);
-              setEVas(eigentest.realEigenvalues);
-              setEVes(eigentest.eigenvectorMatrix);
+              let eigen_decomp =  new EigenvalueDecomposition(matrix);
+              setEVas(eigen_decomp.realEigenvalues);
+              setEVes(eigen_decomp.eigenvectorMatrix);
               setSubmission(!submission);
             }}
             // onSubmit={formik.handleSubmit}
@@ -145,7 +145,9 @@ export default function App() {
           {!submission ? null : (
             <>
               <text>Autovalores</text>
+              {eigenvalues}
               <text>Autovectores</text>
+              {eigenvectors.data}
             </>
           )}
         </div>

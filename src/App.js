@@ -7,35 +7,67 @@ import { Button, Slider, TextField } from "@mui/material";
 import marks from "./marks";
 import { all, create, eigs, map } from "mathjs";
 import { determinant, EigenvalueDecomposition, Matrix } from "ml-matrix";
+import { Calculate } from "@mui/icons-material";
 
 const math = create(all);
 let p = 0;
 let q = 0;
+const matrix = Matrix.zeros(2, 2);
+const eigenspace_1 = Matrix.zeros(2, 2);
+const eigenspace_2 = Matrix.zeros(2, 2);
 
 export default function App() {
   const [a_value, setAValue] = useState(0);
   const [b_value, setBValue] = useState(0);
   const [c_value, setCValue] = useState(0);
   const [d_value, setDValue] = useState(0);
-  
-  const matrix = Matrix.zeros(2, 2);
-  
+
   const [eigenvalues, setEVas] = useState();
-  
-  const eigenspace_1 = Matrix.zeros(2,2);
-  const eigenspace_2 = Matrix.zeros(2,2);
+
   const [eigenvectors, setEVs] = useState();
 
   const [submission, setSubmission] = useState(false);
 
-  useEffect(() => {
-    // setEV1();
-    // setSubmission(false);
+  function calculate() {
+    matrix.set(0, 0, a_value);
+    matrix.set(0, 1, b_value);
+    matrix.set(1, 0, c_value);
+    matrix.set(1, 1, d_value);
 
-    // console.log(eigenvalues);
-    // console.log(eigenvectors);
-    // console.log('Autovector 2: ' + eigenvalue_2);
-  }, [submission]);
+    console.log(matrix);
+
+    p = matrix.trace();
+    q = determinant(matrix);
+
+    // setEV1(math.eigs(matrix, 3));
+
+    let eigen_decomp = new EigenvalueDecomposition(matrix);
+    let aux = eigen_decomp.realEigenvalues;
+    setEVas(aux);
+    eigenspace_1.add(matrix);
+    eigenspace_2.add(matrix);
+
+    eigenspace_1.set(0, 0, a_value - aux[0]);
+    eigenspace_1.set(0, 1, b_value);
+    eigenspace_1.set(1, 0, c_value);
+    eigenspace_1.set(1, 1, d_value - aux[0]);
+
+    eigenspace_2.set(0, 0, a_value - aux[1]);
+    eigenspace_2.set(0, 1, b_value);
+    eigenspace_2.set(1, 0, c_value);
+    eigenspace_2.set(1, 1, d_value - aux[1]);
+
+    console.log(eigenspace_1);
+    console.log(eigenspace_2);
+
+    // setEVes(eigen_decomp.eigenvectorMatrix);
+    setSubmission(!submission);
+  }
+
+  useEffect(() => {
+    console.log("Autovector 1: " + eigenspace_1);
+    console.log("Autovector 2: " + eigenspace_2);
+  }, []);
 
   function valueText(value) {
     return `${value}°C`;
@@ -115,82 +147,79 @@ export default function App() {
 
           <Button
             variant="contained"
-            onClick={() => {
-
-              matrix.set(0, 0, a_value);
-              matrix.set(0, 1, b_value);
-              matrix.set(1, 0, c_value);
-              matrix.set(1, 1, d_value);
-
-              p = matrix.trace();
-              q = determinant(matrix);
-
-              // setEV1(math.eigs(matrix, 3));
-
-              let eigen_decomp = new EigenvalueDecomposition(matrix);
-              let aux = eigen_decomp.realEigenvalues;
-              setEVas(aux);
-              // setEVes(eigen_decomp.eigenvectorMatrix);
-
-
-              eigenspace_1.add(matrix);
-              eigenspace_2.add(matrix);
-              
-              eigenspace_1.set(0,0, a_value - eigenvalues[0])
-              eigenspace_1.set(1,1, d_value - eigenvalues[0])
-              
-              eigenspace_2.set(0,0, a_value - eigenvalues[1])
-              eigenspace_2.set(1,1, d_value - eigenvalues[1])
-              
-              console.log(eigenspace_1);
-              console.log(eigenspace_2);
-              
-              setSubmission(!submission);
-            }}
+            onClick={() => calculate()}
             // onSubmit={formik.handleSubmit}
           >
             Calcular
           </Button>
           {!submission ? null : (
-            <div className="autoparameters">
-              <text>Autovalores</text>
+            <>
+              <a>Autovalores</a>
               {eigenvalues}
-              <text>Autovectores</text>
-              <div className="slider">
-                <Slider
-                  id="eigenvalue_1"
-                  name="eigenvalue_1"
-                  aria-label="eigenvalue_1 value"
-                  getAriaValueText={valueText}
-                  marks={marks}
-                  step={0.25}
-                  min={-5}
-                  max={5}
-                  defaultValue={0}
-                  onChange={(event, value) => console.log(value)}
-                  // error={formik.touched.a && formik.errors.a}
-                  // helperText={formik.touched.a && formik.errors.a}
-                  valueLabelDisplay="auto"
-                />
+              <div className="autoparameters">
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <div style={{ flexDirection: "column" }}>
+                    <h3>A - Lambda 1</h3>
+                    <subtitle>{eigenspace_1.data.toString()}</subtitle>
+                    <div className="slider" style={{ flexDirection: "row" }}>
+                      <TextField
+                        id="eigenvalue_1-x"
+                        name="eigenvalue_1-x"
+                        label="Autovector 1-x"
+                        inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                        onChange={(event, value) => console.log(value)}
+                        // error={formik.touched.a && formik.errors.a}
+                        // helperText={formik.touched.a && formik.errors.a}
+                        valueLabelDisplay="auto"
+                      />
 
-                <Slider
-                  className="slider"
-                  id="eigenvalue_2"
-                  name="eigenvalue_2"
-                  aria-label="eigenvalue_2 value"
-                  getAriaValueText={valueText}
-                  marks={marks}
-                  step={0.25}
-                  min={-5}
-                  max={5}
-                  defaultValue={0}
-                  onChange={(event, value) => console.log(value)}
-                  // error={formik.touched.a && formik.errors.a}
-                  // helperText={formik.touched.a && formik.errors.a}
-                  valueLabelDisplay="auto"
-                />
+                      <TextField
+                        id="eigenvalue_1-y"
+                        name="eigenvalue_1-y"
+                        label="Autovector 1-y"
+                        inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                        onChange={(event, value) => console.log(value)}
+                        // error={formik.touched.a && formik.errors.a}
+                        // helperText={formik.touched.a && formik.errors.a}
+                      />
+                    </div>
+                  </div>
+                  <div style={{ flexDirection: "column" }}>
+                    <h3>A - Lambda 2</h3>
+                    <subtitle>{eigenspace_2.data.toString()}</subtitle>
+                    <div className="slider" style={{ flexDirection: "row" }}>
+                      <TextField
+                        id="eigenvalue_2-x"
+                        name="eigenvalue_2-x"
+                        label="Autovector 2-x"
+                        inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                        onChange={(event, value) => console.log(value)}
+                        // error={formik.touched.a && formik.errors.a}
+                        // helperText={formik.touched.a && formik.errors.a}
+                        valueLabelDisplay="auto"
+                      />
+
+                      <TextField
+                        id="eigenvalue_2-y"
+                        name="eigenvalue_2-y"
+                        label="Autovector 2-y"
+                        inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                        onChange={(event, value) => console.log(value)}
+                        // error={formik.touched.a && formik.errors.a}
+                        // helperText={formik.touched.a && formik.errors.a}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <Button
+                  variant="contained"
+                  onClick={() => alert("Autivectores ingresados")}
+                  // onSubmit={formik.handleSubmit}
+                >
+                  Confirmar AVes
+                </Button>
               </div>
-            </div>
+            </>
           )}
         </div>
         <div className="display">

@@ -15,6 +15,8 @@ let q = 0;
 const matrix = Matrix.zeros(2, 2);
 const eigenspace_1 = Matrix.zeros(2, 2);
 const eigenspace_2 = Matrix.zeros(2, 2);
+const eigenvector_1 = Matrix.zeros(2, 1);
+const eigenvector_2 = Matrix.zeros(2, 1);
 
 export default function App() {
   const [a_value, setAValue] = useState(0);
@@ -24,11 +26,9 @@ export default function App() {
 
   const [eigenvalues, setEVas] = useState();
 
-  const [eigenvectors, setEVs] = useState();
-
   const [submission, setSubmission] = useState(false);
 
-  function calculate() {
+  function get_EVXs() {
     matrix.set(0, 0, a_value);
     matrix.set(0, 1, b_value);
     matrix.set(1, 0, c_value);
@@ -61,7 +61,11 @@ export default function App() {
     console.log(eigenspace_2);
 
     // setEVes(eigen_decomp.eigenvectorMatrix);
-    setSubmission(!submission);
+    setSubmission(true);
+  }
+
+  function check_eigenvectors(){
+
   }
 
   useEffect(() => {
@@ -93,7 +97,7 @@ export default function App() {
               onChange={(event, newNumber) => setAValue(newNumber)}
               // error={formik.touched.a && formik.errors.a}
               // helperText={formik.touched.a && formik.errors.a}
-              valueLabelDisplay="auto"
+              gabelDisplay="auto"
             />
 
             <Slider
@@ -147,7 +151,7 @@ export default function App() {
 
           <Button
             variant="contained"
-            onClick={() => calculate()}
+            onClick={() => get_EVXs()}
             // onSubmit={formik.handleSubmit}
           >
             Calcular
@@ -163,22 +167,28 @@ export default function App() {
                     <subtitle>{eigenspace_1.data.toString()}</subtitle>
                     <div className="slider" style={{ flexDirection: "row" }}>
                       <TextField
+                        type={"number"}
+                        variant="filled"
                         id="eigenvalue_1-x"
                         name="eigenvalue_1-x"
                         label="Autovector 1-x"
-                        inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
-                        onChange={(event, value) => console.log(value)}
+                        onChange={(event) =>
+                          eigenvector_1.set(0, 0, event.target.value)
+                        }
                         // error={formik.touched.a && formik.errors.a}
                         // helperText={formik.touched.a && formik.errors.a}
                         valueLabelDisplay="auto"
                       />
 
                       <TextField
+                        type={"number"}
+                        variant="filled"
                         id="eigenvalue_1-y"
                         name="eigenvalue_1-y"
                         label="Autovector 1-y"
-                        inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
-                        onChange={(event, value) => console.log(value)}
+                        onChange={(event) =>
+                          eigenvector_1.set(1, 0, event.target.value)
+                        }
                         // error={formik.touched.a && formik.errors.a}
                         // helperText={formik.touched.a && formik.errors.a}
                       />
@@ -189,22 +199,28 @@ export default function App() {
                     <subtitle>{eigenspace_2.data.toString()}</subtitle>
                     <div className="slider" style={{ flexDirection: "row" }}>
                       <TextField
+                        type={"number"}
                         id="eigenvalue_2-x"
                         name="eigenvalue_2-x"
                         label="Autovector 2-x"
-                        inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
-                        onChange={(event, value) => console.log(value)}
+                        variant="filled"
+                        onChange={(event) =>
+                          eigenvector_2.set(0, 0, event.target.value)
+                        }
                         // error={formik.touched.a && formik.errors.a}
                         // helperText={formik.touched.a && formik.errors.a}
                         valueLabelDisplay="auto"
                       />
 
                       <TextField
+                        type={"number"}
+                        variant="filled"
                         id="eigenvalue_2-y"
                         name="eigenvalue_2-y"
                         label="Autovector 2-y"
-                        inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
-                        onChange={(event, value) => console.log(value)}
+                        onChange={(event) =>
+                          eigenvector_2.set(1, 0, event.target.value)
+                        }
                         // error={formik.touched.a && formik.errors.a}
                         // helperText={formik.touched.a && formik.errors.a}
                       />
@@ -213,7 +229,7 @@ export default function App() {
                 </div>
                 <Button
                   variant="contained"
-                  onClick={() => alert("Autivectores ingresados")}
+                  onClick={() => alert(eigenvector_1 + '\n' + eigenvector_2)}
                   // onSubmit={formik.handleSubmit}
                 >
                   Confirmar AVes

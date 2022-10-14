@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import { useEffect, useState } from "react";
 import { Button, Slider, TextField } from "@mui/material";
 import marks from "./marks";
-import { all, create, eigs, map } from "mathjs";
+import { all, create, eigs, map, zeros } from "mathjs";
 import { determinant, EigenvalueDecomposition, Matrix } from "ml-matrix";
 import { Calculate } from "@mui/icons-material";
 
@@ -34,7 +34,7 @@ export default function App() {
     matrix.set(1, 0, c_value);
     matrix.set(1, 1, d_value);
 
-    console.log(matrix);
+    // console.log(matrix);
 
     p = matrix.trace();
     q = determinant(matrix);
@@ -57,20 +57,35 @@ export default function App() {
     eigenspace_2.set(1, 0, c_value);
     eigenspace_2.set(1, 1, d_value - aux[1]);
 
-    console.log(eigenspace_1);
-    console.log(eigenspace_2);
-
+    
     // setEVes(eigen_decomp.eigenvectorMatrix);
     setSubmission(true);
   }
-
+  
   function check_eigenvectors(){
+    let zero = Matrix.zeros(2,1);
+    
+    console.log('Matriz esperada: ' + zero);
+    console.log('EA 1: ' + eigenspace_1);
+    console.log('EA 2: ' + eigenspace_2);
+    console.log('EV 1: ' + eigenvector_1);
+    console.log('EV 2: ' + eigenvector_2);
 
-  }
+    let a_lambda1 = new Matrix(eigenspace_1.mmul(eigenvector_1))
+    let a_lambda2 = new Matrix(eigenspace_2.mmul(eigenvector_2))
+    console.log(a_lambda1);
+    console.log(a_lambda2);
+    console.log(a_lambda1.isEmpty());
+    console.log(a_lambda2.isEmpty());
+    console.log(zero.isEmpty());
+    console.log(eigenspace_1.isEmpty());
+
+    return (a_lambda1.sum() === 0 && a_lambda2.sum() === 0);
+  };
 
   useEffect(() => {
-    console.log("Autovector 1: " + eigenspace_1);
-    console.log("Autovector 2: " + eigenspace_2);
+    // console.log("Autovector 1: " + eigenspace_1);
+    // console.log("Autovector 2: " + eigenspace_2);
   }, []);
 
   function valueText(value) {
@@ -97,7 +112,7 @@ export default function App() {
               onChange={(event, newNumber) => setAValue(newNumber)}
               // error={formik.touched.a && formik.errors.a}
               // helperText={formik.touched.a && formik.errors.a}
-              gabelDisplay="auto"
+              valueLabelDisplay="auto"
             />
 
             <Slider
@@ -229,7 +244,7 @@ export default function App() {
                 </div>
                 <Button
                   variant="contained"
-                  onClick={() => alert(eigenvector_1 + '\n' + eigenvector_2)}
+                  onClick={() => alert(check_eigenvectors())}
                   // onSubmit={formik.handleSubmit}
                 >
                   Confirmar AVes

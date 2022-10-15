@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import { useEffect, useState } from "react";
 import { Button, Slider, TextField } from "@mui/material";
 import marks from "./marks";
-import { all, create, eigs, map, zeros } from "mathjs";
+import { all, create, eigs, i, map, zeros } from "mathjs";
 import { determinant, EigenvalueDecomposition, Matrix } from "ml-matrix";
 import { Calculate } from "@mui/icons-material";
 
@@ -25,6 +25,7 @@ export default function App() {
   const [d_value, setDValue] = useState(0);
 
   const [eigenvalues, setEVas] = useState();
+  const [flag, setFlag] = useState(null);
 
   const [submission, setSubmission] = useState(false);
 
@@ -57,39 +58,72 @@ export default function App() {
     eigenspace_2.set(1, 0, c_value);
     eigenspace_2.set(1, 1, d_value - aux[1]);
 
-    
     // setEVes(eigen_decomp.eigenvectorMatrix);
     setSubmission(true);
   }
-  
-  function check_eigenvectors(){
-    let zero = Matrix.zeros(2,1);
-    
-    console.log('Matriz esperada: ' + zero);
-    console.log('EA 1: ' + eigenspace_1);
-    console.log('EA 2: ' + eigenspace_2);
-    console.log('EV 1: ' + eigenvector_1);
-    console.log('EV 2: ' + eigenvector_2);
 
-    let a_lambda1 = new Matrix(eigenspace_1.mmul(eigenvector_1))
-    let a_lambda2 = new Matrix(eigenspace_2.mmul(eigenvector_2))
+  function check_eigenvectors() {
+    setFlag(0);
+
+    let zero = Matrix.zeros(2, 1);
+
+    console.log("Matriz esperada: " + zero);
+    console.log("EA 1: " + eigenspace_1);
+    console.log("EA 2: " + eigenspace_2);
+    console.log("EV 1: " + eigenvector_1);
+    console.log("EV 2: " + eigenvector_2);
+
+    let a_lambda1 = new Matrix(eigenspace_1.mmul(eigenvector_1));
+    let a_lambda2 = new Matrix(eigenspace_2.mmul(eigenvector_2));
     console.log(a_lambda1);
     console.log(a_lambda2);
-    console.log(a_lambda1.isEmpty());
-    console.log(a_lambda2.isEmpty());
-    console.log(zero.isEmpty());
-    console.log(eigenspace_1.isEmpty());
 
-    return (a_lambda1.sum() === 0 && a_lambda2.sum() === 0);
-  };
+    let flagA = 0;
+    let flagB = 0;
+    for (let i = 0; i < 1; i++) {
+      const element = a_lambda1.getRow(i)[0];
+      console.log(element);
+      if (element != 0) flagA=1;
+    }
+    for (let i = 0; i < 1; i++) {
+      const element = a_lambda2.getRow(i)[0];
+      console.log(element);
+      if (element != 0) flagB = 2;
+    }
+    setFlag(flagA + flagB)
+    console.log(flag);
+    return flag;
+  }
 
   useEffect(() => {
+    setFlag(null);
     // console.log("Autovector 1: " + eigenspace_1);
     // console.log("Autovector 2: " + eigenspace_2);
   }, []);
 
   function valueText(value) {
     return `${value}°C`;
+  }
+
+  function renderFlag() {
+    switch (flag) {
+      case 0:
+        return null
+        break;
+
+      case 1:
+        return <h6>El autovector 1 NO da una matriz nula</h6>;
+        break;
+
+      case 2:
+        return <h6>El autovector 2 NO da una matriz nula</h6>;
+        break;
+
+      case 3:
+        return <h6>Ambos autovectores NO dan una matriz nula</h6>;
+        break;
+
+    }
   }
 
   return (
@@ -244,17 +278,21 @@ export default function App() {
                 </div>
                 <Button
                   variant="contained"
-                  onClick={() => alert(check_eigenvectors())}
+                  onClick={() => check_eigenvectors()}
                   // onSubmit={formik.handleSubmit}
                 >
                   Confirmar AVes
                 </Button>
+                {renderFlag()}
               </div>
             </>
           )}
         </div>
         <div className="display">
           <h2>test display</h2>
+          {(flag != 0 ? null : 
+          <h1>test result</h1>
+            )}
         </div>
       </div>
     </div>

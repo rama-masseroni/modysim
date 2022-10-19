@@ -8,6 +8,7 @@ import marks from "./marks";
 import { all, create, eigs, i, map, zeros } from "mathjs";
 import { determinant, EigenvalueDecomposition, Matrix } from "ml-matrix";
 import { Calculate } from "@mui/icons-material";
+import Display from "./components/Display";
 
 const math = create(all);
 let p = 0;
@@ -30,6 +31,8 @@ export default function App() {
   const [submission, setSubmission] = useState(false);
 
   function get_EVXs() {
+    setFlag(null);
+    
     matrix.set(0, 0, a_value);
     matrix.set(0, 1, b_value);
     matrix.set(1, 0, c_value);
@@ -291,8 +294,8 @@ export default function App() {
         <div className="display">
           <h2>test display</h2>
           {(flag != 0 ? null : 
-          <h1>test result</h1>
-            )}
+           <Display/>
+             )}
         </div>
       </div>
     </div>

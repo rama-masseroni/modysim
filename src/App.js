@@ -1,7 +1,7 @@
-import { useFormik } from "formik";
+// import { useFormik } from "formik";
 import "./App.css";
 import Header from "./Header";
-import * as Yup from "yup";
+// import * as Yup from "yup";
 import { useEffect, useState } from "react";
 import { Button, Slider, TextField } from "@mui/material";
 import marks from "./marks";

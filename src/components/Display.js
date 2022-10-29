@@ -12,7 +12,7 @@ export default function Display(props) {
   const graph = algebra.toTex(q_p_graph);
 
   functionPlot({
-    title: q_p_graph.toString(),
+
     target: "#quadratic-with-options",
     width: 580,
     height: 400,

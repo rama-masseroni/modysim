@@ -1,6 +1,8 @@
 .graphs_container{
   height: 57vh;
   background-color: darkorchid;
+  display: flex;
+  flex-direction: row;
 }
 
 .equation{

@@ -294,7 +294,7 @@ export default function App() {
         <div className="display">
           <h2>test display</h2>
           {(flag != 0 ? null : 
-           <Display/>
+           <Display p={p} q={q}/>
              )}
         </div>
       </div>

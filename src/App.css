@@ -1,18 +1,25 @@
-.graphs_container{
+.generic_graphs{
+  width: 42.5vw;
+  height: auto;
+}
+
+.graphs_container {
   height: 57vh;
   background-color: darkorchid;
   display: flex;
   flex-direction: row;
 }
 
-.equation{
+.equation {
   height: 20vh;
   background-color: coral;
 }
 
-.autoparameters{
+.autoparameters {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  max-width: inherit ;
 }
 
 .slider {
@@ -55,8 +62,8 @@
   background-color: gray;
   flex: 1;
   align-items: center;
-  
-  }
+  max-width: 450px;
+}
 
 .display {
   background-color: turquoise;

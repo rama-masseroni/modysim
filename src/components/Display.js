@@ -4,6 +4,7 @@ import katex from "katex";
 import * as algebra from "algebra.js";
 import functionPlot from "function-plot";
 
+
 export default function Display(p, q) {
   const pp= p.p;
   const qq= p.q;
@@ -21,7 +22,7 @@ export default function Display(p, q) {
       title: q_p_graph.toString(),
       target: "#quadratic-with-options",
       width: 500,
-      height: 465,
+      height: 455,
       disableZoom: true,
       xAxis: {
         label: "p - axis",
@@ -56,7 +57,7 @@ export default function Display(p, q) {
       </div>
       <div className="graphs_container">
         <div id="quadratic-with-options" style={{backgroundColor:'white'}}></div>
-        <div>
+        <div className="generic_graphs">
           <p>test</p>
         </div>
       </div>

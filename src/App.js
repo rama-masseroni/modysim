@@ -7,8 +7,8 @@ import { Button, Slider, TextField } from "@mui/material";
 import marks from "./marks";
 import { all, create, eigs, i, map, zeros } from "mathjs";
 import { determinant, EigenvalueDecomposition, Matrix } from "ml-matrix";
-import { Calculate } from "@mui/icons-material";
 import Display from "./components/Display";
+import imgSelector from "./utils/img_selector";
 
 const math = create(all);
 let p = 0;
@@ -30,6 +30,8 @@ export default function App() {
 
   const [submission, setSubmission] = useState(false);
 
+  let url = null;
+
   function get_EVXs() {
     setFlag(null);
     
@@ -47,19 +49,26 @@ export default function App() {
 
     let eigen_decomp = new EigenvalueDecomposition(matrix);
     let aux = eigen_decomp.realEigenvalues;
+    aux.forEach(element => {
+      let index = aux.indexOf(element);
+      if(index !== -1) aux[index] = element.toFixed(2);
+    });
     setEVas(aux);
     eigenspace_1.add(matrix);
     eigenspace_2.add(matrix);
 
-    eigenspace_1.set(0, 0, a_value - aux[0]);
-    eigenspace_1.set(0, 1, b_value);
-    eigenspace_1.set(1, 0, c_value);
-    eigenspace_1.set(1, 1, d_value - aux[0]);
+    eigenspace_1.set(0, 0, (a_value - aux[0]).toFixed(2));
+    eigenspace_1.set(0, 1, (b_value).toFixed(2));
+    eigenspace_1.set(1, 0, (c_value).toFixed(2));
+    eigenspace_1.set(1, 1, (d_value - aux[0]).toFixed(2));
 
-    eigenspace_2.set(0, 0, a_value - aux[1]);
-    eigenspace_2.set(0, 1, b_value);
-    eigenspace_2.set(1, 0, c_value);
-    eigenspace_2.set(1, 1, d_value - aux[1]);
+    eigenspace_2.set(0, 0, (a_value - aux[1]).toFixed(2));
+    eigenspace_2.set(0, 1, (b_value).toFixed(2));
+    eigenspace_2.set(1, 0, (c_value).toFixed(2));
+    eigenspace_2.set(1, 1, (d_value - aux[1]).toFixed(2));
+
+    url = imgSelector(aux, p, q);
+    console.log(url);
 
     // setEVes(eigen_decomp.eigenvectorMatrix);
     setSubmission(true);
@@ -205,6 +214,7 @@ export default function App() {
             variant="contained"
             onClick={() => get_EVXs()}
             // onSubmit={formik.handleSubmit}
+            style={{margin: '10px 0 15px 0'}}
           >
             Calcular
           </Button>
@@ -214,10 +224,10 @@ export default function App() {
               {eigenvalues}
               <div className="autoparameters">
                 <div style={{ display: "flex", flexDirection: "row" }}>
-                  <div style={{ flexDirection: "column" }}>
+                  <div style={{ flexDirection: "column" , maxWidth:'225px'}}>
                     <h3>A - Lambda 1</h3>
                     <subtitle>{eigenspace_1.data.toString()}</subtitle>
-                    <div className="slider" style={{ flexDirection: "row" }}>
+                    <div style={{ flexDirection: "row", paddingLeft:'5px', paddingRight:'5px' }}>
                       <TextField
                         type={"number"}
                         variant="filled"
@@ -246,10 +256,10 @@ export default function App() {
                       />
                     </div>
                   </div>
-                  <div style={{ flexDirection: "column" }}>
+                  <div style={{ flexDirection: "column" , maxWidth:'225px', justifyContent:'center'}}>
                     <h3>A - Lambda 2</h3>
                     <subtitle>{eigenspace_2.data.toString()}</subtitle>
-                    <div className="slider" style={{ flexDirection: "row" }}>
+                    <div style={{ flexDirection: "row", paddingLeft:'2.5px', paddingRight:'5px' }}>
                       <TextField
                         type={"number"}
                         id="eigenvalue_2-x"
@@ -283,8 +293,9 @@ export default function App() {
                   variant="contained"
                   onClick={() => check_eigenvectors()}
                   // onSubmit={formik.handleSubmit}
+                  style={{marginTop:'20px'}}
                 >
-                  Confirmar AVes
+                  Confirmar Autovectores
                 </Button>
                 {renderFlag()}
               </div>

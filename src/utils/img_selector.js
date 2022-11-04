@@ -13,35 +13,35 @@ export default function imgSelector(eigenvalues, p, q) {
   let result = math.evaluate("(x^2)/4", scope);
   console.log(result);
 
-  const base_url =
-    "https://github.com/MelodRAMAtick/modysim/blob/42ffe7967f5b2717301048dba88fd14fe5731eab/src/imgs/";
-  //   console.log(e1);
+  // const base_url =
+  // "https://res.cloudinary.com/dv57wpzku/image/upload/v1667597138/diagramas/"
+   //   console.log(e1);
   //   console.log(e2);
   console.log(p);
   console.log(q);
 
-  if (q < 0) return base_url + "p%20y%20q%20menor%200.png";
+  if (q < 0) return  "diagramas/p_y_q_menor_0_azmvfw.png";
   if (q > 0) {
     if (0 < p && q < result)
-      return base_url + "q%2menor%20(p%5E2)%20sobre%204.png";
+      return  "diagramas/q_menor_p_2_sobre_4_etszco.png";
     if (p < 0 && q < result)
-      return base_url + "q%20menor%20(-p%5E2)%20sobre%204.png";
+      return  "diagramas/q_menor_-p_2_sobre_4_ytjl6m.png";
 
     if (0 < p && result === q)
-      return base_url + "q%20=%20(p%5E2)%20sobre%204.png";
+      return  "diagramas/q_p_2_sobre_4_qgh08k.png";
     if (p < 0 && q === result)
-      return base_url + "q%20=%20(-p%5E2)%20sobre%204.png";
+      return  "diagramas/q_-p_2_sobre_4_t3mhmp.png";
 
     if (0 < p && result < q)
-      return base_url + "q%20mayor%20q(p)%20(repulsor).png";
+      return  "diagramas/q_mayor_q_p_repulsor_rrqb1v.png";
     if (p < 0 && q > result)
-      return base_url + "q%20mayor%20q(p)%20(atractor).png";
+      return  "diagramas/q_mayor_q_p_atractor_twb9bm.png";
     if (p === 0 && q > result)
-      return base_url + "p=0%20y%20q%20mayor%20q(p).png";
+      return  "diagramas/p_0_y_q_mayor_q_p_ct3guu.png";
   }
   if (q === 0) {
-    if (p === 0) return base_url + "p=q=0.png";
-    if (p < 0) return base_url + "p%20menor%200;q=0.png";
-    if (p > 0) return base_url + "p%20mayor%200;q=0.png";
+    if (p === 0) return  "diagramas/p_q_0_aovh3n.png";
+    if (p < 0) return  "diagramas/p_menor_0_q_0_niycig.png";
+    if (p > 0) return  "diagramas/p_mayor_0_q_0_rubjga.png";
   };
 }

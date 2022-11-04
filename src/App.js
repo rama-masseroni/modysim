@@ -18,6 +18,7 @@ const eigenspace_1 = Matrix.zeros(2, 2);
 const eigenspace_2 = Matrix.zeros(2, 2);
 const eigenvector_1 = Matrix.zeros(2, 1);
 const eigenvector_2 = Matrix.zeros(2, 1);
+let url = null;
 
 export default function App() {
   const [a_value, setAValue] = useState(0);
@@ -30,7 +31,6 @@ export default function App() {
 
   const [submission, setSubmission] = useState(false);
 
-  let url = null;
 
   function get_EVXs() {
     setFlag(null);
@@ -112,6 +112,8 @@ export default function App() {
     // console.log("Autovector 1: " + eigenspace_1);
     // console.log("Autovector 2: " + eigenspace_2);
   }, []);
+
+  
 
   function valueText(value) {
     return `${value}°C`;
@@ -305,7 +307,7 @@ export default function App() {
         <div className="display">
           <h2>test display</h2>
           {(flag != 0 ? null : 
-           <Display p={p} q={q}/>
+           <Display p={p} q={q} url={url}/>
              )}
         </div>
       </div>

@@ -9,7 +9,7 @@ export default function Header() {
       <h2 style={{ gridColumn: 1 }}>Modelado y Simulación</h2>
       <h1 style={{ gridColumn: 2 }}>Análisis de Sistemas 2Ds (Des)Acoplados</h1>
       <div style={{ width: "fit-content", justifySelf: "center" }}>
-        <Button variant="contained" onClick={() =>  console.log("Clicked") }>
+        <Button variant="contained" href="https://github.com/MelodRAMAtick/modysim" target="_blank" rel="noopener noreferrer">
           <Help />
           <h2 style={{ gridColumn: 1 }}>Acerca de</h2>
         </Button>

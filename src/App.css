@@ -1,6 +1,5 @@
 .generic_graphs{
   width: 42.5vw;
-  height: auto;
 }
 
 .graphs_container {
@@ -8,6 +7,7 @@
   background-color: darkorchid;
   display: flex;
   flex-direction: row;
+  height: 460px;
 }
 
 .equation {

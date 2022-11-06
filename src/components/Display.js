@@ -3,9 +3,10 @@ import "../App.css";
 import katex from "katex";
 import * as algebra from "algebra.js";
 import functionPlot from "function-plot";
-import { CloudinaryContext, Image } from "cloudinary-react";
+import { CloudinaryContext, Image, Transformation } from "cloudinary-react";
+import {Matrix} from "ml-matrix"
 
-export default function Display({ p, q, url }) {
+export default function Display({ p, q, url, ev1, ev2 }) {
   const pp = p;
   const qq = q;
   const imagen = url;
@@ -15,7 +16,8 @@ export default function Display({ p, q, url }) {
   console.log(q_p_graph.toString());
   const graph = algebra.toTex(q_p_graph);
 
-
+  // console.log(ev1.);
+  console.log(ev2);
 
   useEffect(() => {
     console.log(qq);
@@ -45,10 +47,28 @@ export default function Display({ p, q, url }) {
           fnType: "points",
           graphType: "scatter",
         },
+        {
+          vector: [ev1[0], ev1[1]],
+          graphType: "polyline",
+          fnType: "vector",
+        },
+        {
+          vector: [-ev1[0], -ev1[1]],
+          graphType: "polyline",
+          fnType: "vector",
+        },
+        {
+          vector: [ev2[0], ev2[1]],
+          graphType: "polyline",
+          fnType: "vector",
+        },
+        {
+          vector: [-ev2[0], -ev2[1]],
+          graphType: "polyline",
+          fnType: "vector",
+        },
       ],
     });
-
-
 
     return () => {};
   }, []);
@@ -66,7 +86,9 @@ export default function Display({ p, q, url }) {
         <div className="generic_graphs">
           <CloudinaryContext cloudName="dv57wpzku">
             <div>
-              <Image   publicId= {imagen}/>
+              <Image publicId={imagen}>
+                <Transformation height="455" crop="fill" />
+              </Image>
             </div>
           </CloudinaryContext>
         </div>

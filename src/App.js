@@ -307,7 +307,7 @@ export default function App() {
         <div className="display">
           <h2>test display</h2>
           {(flag != 0 ? null : 
-           <Display p={p} q={q} url={url}/>
+           <Display p={p} q={q} url={url} ev1={[eigenvector_1.get(0,0),eigenvector_1.get(1,0)]} ev2={[eigenvector_2.get(0,0),eigenvector_2.get(1,0)]}/>
              )}
         </div>
       </div>

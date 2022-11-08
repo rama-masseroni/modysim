@@ -31,10 +31,12 @@ export default function App() {
 
   const [submission, setSubmission] = useState(false);
 
+  const [isImaginary, setIsImaginary] = useState(false);
 
   function get_EVXs() {
     setFlag(null);
-    
+    setIsImaginary(false);
+
     matrix.set(0, 0, a_value);
     matrix.set(0, 1, b_value);
     matrix.set(1, 0, c_value);
@@ -49,22 +51,36 @@ export default function App() {
 
     let eigen_decomp = new EigenvalueDecomposition(matrix);
     let aux = eigen_decomp.realEigenvalues;
-    aux.forEach(element => {
+    aux.forEach((element) => {
       let index = aux.indexOf(element);
-      if(index !== -1) aux[index] = element.toFixed(2);
+      if (index !== -1) aux[index] = element.toFixed(2);
     });
+
+
     setEVas(aux);
     eigenspace_1.add(matrix);
     eigenspace_2.add(matrix);
 
+    let scope = {
+      x: p,
+    };
+
+    if (p != 0 && q > math.evaluate("(x^2)/4", scope)) {
+      alert(eigen_decomp.imaginaryEigenvalues);
+      setIsImaginary(true);
+      setSubmission(true);
+      setFlag(0);
+    }
+    console.log(isImaginary);
+
     eigenspace_1.set(0, 0, (a_value - aux[0]).toFixed(2));
-    eigenspace_1.set(0, 1, (b_value).toFixed(2));
-    eigenspace_1.set(1, 0, (c_value).toFixed(2));
+    eigenspace_1.set(0, 1, b_value.toFixed(2));
+    eigenspace_1.set(1, 0, c_value.toFixed(2));
     eigenspace_1.set(1, 1, (d_value - aux[0]).toFixed(2));
 
     eigenspace_2.set(0, 0, (a_value - aux[1]).toFixed(2));
-    eigenspace_2.set(0, 1, (b_value).toFixed(2));
-    eigenspace_2.set(1, 0, (c_value).toFixed(2));
+    eigenspace_2.set(0, 1, b_value.toFixed(2));
+    eigenspace_2.set(1, 0, c_value.toFixed(2));
     eigenspace_2.set(1, 1, (d_value - aux[1]).toFixed(2));
 
     url = imgSelector(aux, p, q);
@@ -93,16 +109,16 @@ export default function App() {
     let flagA = 0;
     let flagB = 0;
     for (let i = 0; i < 1; i++) {
-      const element = a_lambda1.getRow(i)[0];
+      const element = a_lambda1.getRow(i)[0].toFixed(2);
       console.log(element);
-      if (element != 0) flagA=1;
+      if (element != 0) flagA = 1;
     }
     for (let i = 0; i < 1; i++) {
-      const element = a_lambda2.getRow(i)[0];
+      const element = a_lambda2.getRow(i)[0].toFixed(2);
       console.log(element);
       if (element != 0) flagB = 2;
     }
-    setFlag(flagA + flagB)
+    setFlag(flagA + flagB);
     console.log(flag);
     return flag;
   }
@@ -113,8 +129,6 @@ export default function App() {
     // console.log("Autovector 2: " + eigenspace_2);
   }, []);
 
-  
-
   function valueText(value) {
     return `${value}°C`;
   }
@@ -122,7 +136,7 @@ export default function App() {
   function renderFlag() {
     switch (flag) {
       case 0:
-        return null
+        return null;
         break;
 
       case 1:
@@ -136,7 +150,6 @@ export default function App() {
       case 3:
         return <h6>Ambos autovectores NO dan una matriz nula</h6>;
         break;
-
     }
   }
 
@@ -216,7 +229,7 @@ export default function App() {
             variant="contained"
             onClick={() => get_EVXs()}
             // onSubmit={formik.handleSubmit}
-            style={{margin: '10px 0 15px 0'}}
+            style={{ margin: "10px 0 15px 0" }}
           >
             Calcular
           </Button>
@@ -226,10 +239,16 @@ export default function App() {
               {eigenvalues}
               <div className="autoparameters">
                 <div style={{ display: "flex", flexDirection: "row" }}>
-                  <div style={{ flexDirection: "column" , maxWidth:'225px'}}>
+                  <div style={{ flexDirection: "column", maxWidth: "225px" }}>
                     <h3>A - Lambda 1</h3>
                     <subtitle>{eigenspace_1.data.toString()}</subtitle>
-                    <div style={{ flexDirection: "row", paddingLeft:'5px', paddingRight:'5px' }}>
+                    <div
+                      style={{
+                        flexDirection: "row",
+                        paddingLeft: "5px",
+                        paddingRight: "5px",
+                      }}
+                    >
                       <TextField
                         type={"number"}
                         variant="filled"
@@ -242,6 +261,7 @@ export default function App() {
                         // error={formik.touched.a && formik.errors.a}
                         // helperText={formik.touched.a && formik.errors.a}
                         valueLabelDisplay="auto"
+                        disabled={isImaginary}
                       />
 
                       <TextField
@@ -255,13 +275,26 @@ export default function App() {
                         }
                         // error={formik.touched.a && formik.errors.a}
                         // helperText={formik.touched.a && formik.errors.a}
+                        disabled={isImaginary}
                       />
                     </div>
                   </div>
-                  <div style={{ flexDirection: "column" , maxWidth:'225px', justifyContent:'center'}}>
+                  <div
+                    style={{
+                      flexDirection: "column",
+                      maxWidth: "225px",
+                      justifyContent: "center",
+                    }}
+                  >
                     <h3>A - Lambda 2</h3>
                     <subtitle>{eigenspace_2.data.toString()}</subtitle>
-                    <div style={{ flexDirection: "row", paddingLeft:'2.5px', paddingRight:'5px' }}>
+                    <div
+                      style={{
+                        flexDirection: "row",
+                        paddingLeft: "2.5px",
+                        paddingRight: "5px",
+                      }}
+                    >
                       <TextField
                         type={"number"}
                         id="eigenvalue_2-x"
@@ -274,6 +307,7 @@ export default function App() {
                         // error={formik.touched.a && formik.errors.a}
                         // helperText={formik.touched.a && formik.errors.a}
                         valueLabelDisplay="auto"
+                        disabled={isImaginary}
                       />
 
                       <TextField
@@ -287,6 +321,7 @@ export default function App() {
                         }
                         // error={formik.touched.a && formik.errors.a}
                         // helperText={formik.touched.a && formik.errors.a}
+                        disabled={isImaginary}
                       />
                     </div>
                   </div>
@@ -295,7 +330,7 @@ export default function App() {
                   variant="contained"
                   onClick={() => check_eigenvectors()}
                   // onSubmit={formik.handleSubmit}
-                  style={{marginTop:'20px'}}
+                  style={{ marginTop: "20px" }}
                 >
                   Confirmar Autovectores
                 </Button>
@@ -306,9 +341,15 @@ export default function App() {
         </div>
         <div className="display">
           <h2>test display</h2>
-          {(flag != 0 ? null : 
-           <Display p={p} q={q} url={url} ev1={[eigenvector_1.get(0,0),eigenvector_1.get(1,0)]} ev2={[eigenvector_2.get(0,0),eigenvector_2.get(1,0)]}/>
-             )}
+          {flag != 0 ? null : (
+            <Display
+              p={p}
+              q={q}
+              url={url}
+              ev1={[eigenvector_1.get(0, 0), eigenvector_1.get(1, 0)]}
+              ev2={[eigenvector_2.get(0, 0), eigenvector_2.get(1, 0)]}
+            />
+          )}
         </div>
       </div>
     </div>

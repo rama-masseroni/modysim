@@ -4,7 +4,7 @@ import katex from "katex";
 import * as algebra from "algebra.js";
 import functionPlot from "function-plot";
 import { CloudinaryContext, Image, Transformation } from "cloudinary-react";
-import {Matrix} from "ml-matrix"
+import { Matrix } from "ml-matrix";
 
 export default function Display({ p, q, url, ev1, ev2 }) {
   const pp = p;
@@ -16,7 +16,7 @@ export default function Display({ p, q, url, ev1, ev2 }) {
   console.log(q_p_graph.toString());
   const graph = algebra.toTex(q_p_graph);
 
-  // console.log(ev1.);
+  console.log(ev1);
   console.log(ev2);
 
   useEffect(() => {
@@ -28,7 +28,9 @@ export default function Display({ p, q, url, ev1, ev2 }) {
       target: "#quadratic-with-options",
       width: 500,
       height: 455,
+      grid: true,
       disableZoom: true,
+
       xAxis: {
         label: "p - axis",
         domain: [-4, 4],
@@ -41,31 +43,37 @@ export default function Display({ p, q, url, ev1, ev2 }) {
         {
           fn: "y=(x^2)/4",
           graphType: "polyline",
+          skipTip: true,
         },
         {
           points: [[pp, qq]],
           fnType: "points",
           graphType: "scatter",
+          color: "black",
         },
         {
           vector: [ev1[0], ev1[1]],
           graphType: "polyline",
           fnType: "vector",
+          color: "red",
         },
         {
           vector: [-ev1[0], -ev1[1]],
           graphType: "polyline",
           fnType: "vector",
+          color: "red",
         },
         {
           vector: [ev2[0], ev2[1]],
           graphType: "polyline",
           fnType: "vector",
+          color: "green",
         },
         {
           vector: [-ev2[0], -ev2[1]],
           graphType: "polyline",
           fnType: "vector",
+          color: "green",
         },
       ],
     });

@@ -9,6 +9,7 @@ import { all, create, eigs, i, map, zeros } from "mathjs";
 import { determinant, EigenvalueDecomposition, Matrix } from "ml-matrix";
 import Display from "./components/Display";
 import imgSelector from "./utils/img_selector";
+import { MathfieldElement } from "mathlive";
 
 const math = create(all);
 let p = 0;
@@ -33,6 +34,8 @@ export default function App() {
 
   const [isImaginary, setIsImaginary] = useState(false);
 
+  const mle = new MathfieldElement();
+
   function get_EVXs() {
     setFlag(null);
     setIsImaginary(false);
@@ -56,7 +59,6 @@ export default function App() {
       if (index !== -1) aux[index] = element.toFixed(2);
     });
 
-
     setEVas(aux);
     eigenspace_1.add(matrix);
     eigenspace_2.add(matrix);
@@ -66,7 +68,7 @@ export default function App() {
     };
 
     if (p != 0 && q > math.evaluate("(x^2)/4", scope)) {
-      alert(eigen_decomp.imaginaryEigenvalues);
+      // alert(eigen_decomp.imaginaryEigenvalues);
       setIsImaginary(true);
       setSubmission(true);
       setFlag(0);
@@ -158,71 +160,111 @@ export default function App() {
       <Header />
       <div className="body">
         <div className="inputs">
-          <h2>test inputs</h2>
+          <h2>Sección de Inputs</h2>
           <div className="slider">
-            <Slider
-              id="a"
-              name="a"
-              aria-label="a value"
-              getAriaValueText={valueText}
-              marks={marks}
-              step={0.25}
-              min={-5}
-              max={5}
-              defaultValue={0}
-              onChange={(event, newNumber) => setAValue(newNumber)}
-              // error={formik.touched.a && formik.errors.a}
-              // helperText={formik.touched.a && formik.errors.a}
-              valueLabelDisplay="auto"
-            />
+            <subtitle>
+              Especifique los siguientes valores de la Matriz A
+            </subtitle>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignContent: "center",
+                marginTop: "10px",
+              }}
+            >
+              <text style={{ marginRight: "20px" }}>a)</text>
+              <Slider
+                id="a"
+                name="a"
+                aria-label="a value"
+                getAriaValueText={valueText}
+                marks={marks}
+                step={0.25}
+                min={-5}
+                max={5}
+                defaultValue={0}
+                onChange={(event, newNumber) => setAValue(newNumber)}
+                // error={formik.touched.a && formik.errors.a}
+                // helperText={formik.touched.a && formik.errors.a}
+                valueLabelDisplay="auto"
+              />
+            </div>
 
-            <Slider
-              id="b"
-              name="b"
-              aria-label="b value"
-              getAriaValueText={valueText}
-              marks={marks}
-              step={0.25}
-              min={-5}
-              max={5}
-              defaultValue={0}
-              onChange={(event, value) => setBValue(value)}
-              // error={formik.touched.a && formik.errors.a}
-              // helperText={formik.touched.a && formik.errors.a}
-              valueLabelDisplay="auto"
-            />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignContent: "center",
+              }}
+            >
+              <text style={{ marginRight: "20px" }}>b)</text>
 
-            <Slider
-              id="c"
-              name="c"
-              aria-label="c value"
-              getAriaValueText={valueText}
-              marks={marks}
-              step={0.25}
-              min={-5}
-              max={5}
-              defaultValue={0}
-              onChange={(event, value) => setCValue(value)}
-              // error={formik.touched.a && formik.errors.a}
-              // helperText={formik.touched.a && formik.errors.a}
-              valueLabelDisplay="auto"
-            />
+              <Slider
+                id="b"
+                name="b"
+                aria-label="b value"
+                getAriaValueText={valueText}
+                marks={marks}
+                step={0.25}
+                min={-5}
+                max={5}
+                defaultValue={0}
+                onChange={(event, value) => setBValue(value)}
+                // error={formik.touched.a && formik.errors.a}
+                // helperText={formik.touched.a && formik.errors.a}
+                valueLabelDisplay="auto"
+              />
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignContent: "center",
+              }}
+            >
+              <text style={{ marginRight: "20px" }}>c)</text>
+              <Slider
+                id="c"
+                name="c"
+                aria-label="c value"
+                getAriaValueText={valueText}
+                marks={marks}
+                step={0.25}
+                min={-5}
+                max={5}
+                defaultValue={0}
+                onChange={(event, value) => setCValue(value)}
+                // error={formik.touched.a && formik.errors.a}
+                // helperText={formik.touched.a && formik.errors.a}
+                valueLabelDisplay="auto"
+              />
+            </div>
 
-            <Slider
-              id="d"
-              name="d"
-              aria-label="d value"
-              getAriaValueText={valueText}
-              marks={marks}
-              step={0.25}
-              min={-5}
-              max={5}
-              defaultValue={0}
-              onChange={(event, value) => setDValue(value)}
-              // error={formik.touched.a && formik.errors.a}
-              // helperText={formik.touched.a && formik.errors.a}
-              valueLabelDisplay="auto"
-            />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignContent: "center",
+              }}
+            >
+              <text style={{ marginRight: "20px" }}>d)</text>
+              <Slider
+                id="d"
+                name="d"
+                aria-label="d value"
+                getAriaValueText={valueText}
+                marks={marks}
+                step={0.25}
+                min={-5}
+                max={5}
+                defaultValue={0}
+                onChange={(event, value) => setDValue(value)}
+                // error={formik.touched.a && formik.errors.a}
+                // helperText={formik.touched.a && formik.errors.a}
+                valueLabelDisplay="auto"
+              />
+            </div>
           </div>
 
           <Button
@@ -236,11 +278,25 @@ export default function App() {
           {!submission ? null : (
             <>
               <a>Autovalores</a>
-              {eigenvalues}
+
+              <math-field read-only>
+                \Large \sigma\scriptstyle (A) \displaystyle  = \lbrace \lambda_1
+                ={eigenvalues[0]}; \lambda_2 = {eigenvalues[1]}\rbrace
+              </math-field>
+
               <div className="autoparameters">
                 <div style={{ display: "flex", flexDirection: "row" }}>
-                  <div style={{ flexDirection: "column", maxWidth: "225px" }}>
-                    <h3>A - Lambda 1</h3>
+                  <div
+                    style={{
+                      display:"flex",
+                      flexDirection: "column",
+                      maxWidth: "225px",
+                      alignItems: "center",
+                    }}
+                  >
+                    <h3>
+                      <math-field read-only>S_\lambda _1</math-field>
+                    </h3>
                     <subtitle>{eigenspace_1.data.toString()}</subtitle>
                     <div
                       style={{
@@ -281,12 +337,15 @@ export default function App() {
                   </div>
                   <div
                     style={{
+                      display:"flex",
                       flexDirection: "column",
                       maxWidth: "225px",
-                      justifyContent: "center",
+                      alignItems: "center",
                     }}
                   >
-                    <h3>A - Lambda 2</h3>
+                    <h3>
+                      <math-field read-only >S_\lambda _2</math-field>
+                    </h3>
                     <subtitle>{eigenspace_2.data.toString()}</subtitle>
                     <div
                       style={{

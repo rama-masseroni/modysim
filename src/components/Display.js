@@ -5,8 +5,9 @@ import * as algebra from "algebra.js";
 import functionPlot from "function-plot";
 import { CloudinaryContext, Image, Transformation } from "cloudinary-react";
 import { Matrix } from "ml-matrix";
+import { MathJax } from "better-react-mathjax";
 
-export default function Display({ p, q, url, ev1, ev2 }) {
+export default function Display({ p, q, url, ev1, ev2, values }) {
   const pp = p;
   const qq = q;
   const imagen = url;
@@ -24,7 +25,7 @@ export default function Display({ p, q, url, ev1, ev2 }) {
     console.log(pp);
     console.log(imagen);
     functionPlot({
-      title: q_p_graph.toString(),
+      // title: q_p_graph.toString(),
       target: "#quadratic-with-options",
       width: 500,
       height: 455,
@@ -84,7 +85,21 @@ export default function Display({ p, q, url, ev1, ev2 }) {
   return (
     <>
       <div className="equation">
-        <a>Test equation child component</a>
+        <MathJax>
+          {"\\(\\large \\dot{X} = A \\times X ; \\space A = \\begin{pmatrix}"}{" "}
+          {values[0]} {"&&"} {values[1]} {"\\\\"} {values[2]} {"&&"} {values[3]}{" "}
+          {
+            "\\end{pmatrix} \\Longrightarrow \\text{también entendible como} \\space A = f(n) = \\begin{cases}  \\dot{x} ="
+          }{" "}
+          {values[0]}
+          {"*x + "}
+          {values[1]}
+          {"*y \\\\ \\dot{y} = "}
+          {values[2]}
+          {"*x + "}
+          {values[3]}
+          {'*y \\end{cases}\\)'}
+        </MathJax>
       </div>
       <div className="graphs_container">
         <div

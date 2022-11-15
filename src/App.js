@@ -17,15 +17,14 @@ const config = {
     packages: { "[+]": ["html"] },
     inlineMath: [
       ["$", "$"],
-      ["\\(", "\\)"]
+      ["\\(", "\\)"],
     ],
     displayMath: [
       ["$$", "$$"],
-      ["\\[", "\\]"]
-    ]
-  }
+      ["\\[", "\\]"],
+    ],
+  },
 };
-
 
 const math = create(all);
 let p = 0;
@@ -37,13 +36,11 @@ const eigenvector_1 = Matrix.zeros(2, 1);
 const eigenvector_2 = Matrix.zeros(2, 1);
 let url = null;
 
-
 export default function App() {
   const [a_value, setAValue] = useState(0);
   const [b_value, setBValue] = useState(0);
   const [c_value, setCValue] = useState(0);
   const [d_value, setDValue] = useState(0);
-  
 
   const [eigenvalues, setEVas] = useState();
   const [flag, setFlag] = useState(null);
@@ -148,8 +145,6 @@ export default function App() {
     // console.log("Autovector 2: " + eigenspace_2);
   }, []);
 
-  
-
   function valueText(value) {
     return `${value}°C`;
   }
@@ -175,7 +170,7 @@ export default function App() {
   }
 
   return (
-    <MathJaxContext version={3} config={config} >
+    <MathJaxContext version={3} config={config}>
       <div className="App">
         <Header />
         <div className="body">
@@ -293,14 +288,16 @@ export default function App() {
               // onSubmit={formik.handleSubmit}
               style={{ margin: "10px 0 15px 0" }}
             >
-              Calcular
+              Calcular Autovalores y autovectores
             </Button>
             {!submission ? null : (
               <>
-                <a>Autovalores</a>
-
                 <MathJax>
-                  {"\\(\\LARGE \\sigma\\scriptstyle (A) \\displaystyle = \\lbrace \\lambda_1 =\\)"} {eigenvalues[0]} {"\\(; \\lambda_2 =\\)"} {eigenvalues[1]} {"\\(\\rbrace \\)"}
+                  {
+                    "\\(\\LARGE \\sigma\\scriptstyle (A) \\displaystyle = \\lbrace \\lambda_1 =\\)"
+                  }{" "}
+                  {eigenvalues[0]} {"\\(; \\lambda_2 =\\)"} {eigenvalues[1]}{" "}
+                  {"\\(\\rbrace \\)"}
                 </MathJax>
 
                 <div className="autoparameters">
@@ -314,13 +311,22 @@ export default function App() {
                       }}
                     >
                       <h3>
-                        <MathJax >
-                          { "\\(S_{\\lambda _1} = Nul \\lbrace A - \\lambda_1 \\times I \\rbrace \\)" }  
+                        <MathJax>
+                          {
+                            "\\(\\small S_{\\lambda _1} = Nul \\lbrace A - \\lambda_1 \\times I \\rbrace \\)"
+                          }
                         </MathJax>
                       </h3>
                       <subtitle>
-                        <MathJax dynamic={true} >
-                        {'\\(\\begin{pmatrix} '} {eigenspace_1.data[0][0]} {' & '}{eigenspace_1.data[0][1]}{'\\\\'}{eigenspace_1.data[1][0]}{'&'}{eigenspace_1.data[1][1]}{'\\ \\end{pmatrix}\\)'}
+                        <MathJax dynamic={true}>
+                          {"\\(\\begin{pmatrix} "} {eigenspace_1.data[0][0]}{" "}
+                          {" & "}
+                          {eigenspace_1.data[0][1]}
+                          {"\\\\"}
+                          {eigenspace_1.data[1][0]}
+                          {"&"}
+                          {eigenspace_1.data[1][1]}
+                          {"\\ \\end{pmatrix}\\)"}
                         </MathJax>
                       </subtitle>
                       <div
@@ -370,15 +376,23 @@ export default function App() {
                     >
                       <h3>
                         <MathJax read-only>
-                        { "\\(S_{\\lambda _2} = Nul \\lbrace A - \\lambda_2 \\times I \\rbrace \\)" }  
+                          {
+                            "\\(\\small S_{\\lambda _2} = Nul \\lbrace A - \\lambda_2 \\times I \\rbrace \\)"
+                          }
                         </MathJax>
                       </h3>
                       <subtitle>
-                      <MathJax dynamic = {true}>
-                          {'\\(\\begin{pmatrix} '} {eigenspace_2.data[0][0]} {' & '}{eigenspace_2.data[0][1]}{'\\\\'}{eigenspace_2.data[1][0]}{'&'}{eigenspace_2.data[1][1]}{'\\ \\end{pmatrix}\\)'}
+                        <MathJax dynamic={true}>
+                          {"\\(\\begin{pmatrix} "} {eigenspace_2.data[0][0]}{" "}
+                          {" & "}
+                          {eigenspace_2.data[0][1]}
+                          {"\\\\"}
+                          {eigenspace_2.data[1][0]}
+                          {"&"}
+                          {eigenspace_2.data[1][1]}
+                          {"\\ \\end{pmatrix}\\)"}
                         </MathJax>
-
-                        </subtitle>
+                      </subtitle>
                       <div
                         style={{
                           flexDirection: "row",
@@ -431,15 +445,18 @@ export default function App() {
             )}
           </div>
           <div className="display">
-            <h2>test display</h2>
             {flag !== 0 ? null : (
-              <Display
-                p={p}
-                q={q}
-                url={url}
-                ev1={[eigenvector_1.get(0, 0), eigenvector_1.get(1, 0)]}
-                ev2={[eigenvector_2.get(0, 0), eigenvector_2.get(1, 0)]}
-              />
+              <>
+                <h2>Resultados</h2>
+                <Display
+                  p={p}
+                  q={q}
+                  url={url}
+                  ev1={[eigenvector_1.get(0, 0), eigenvector_1.get(1, 0)]}
+                  ev2={[eigenvector_2.get(0, 0), eigenvector_2.get(1, 0)]}
+                  values = {new Array(a_value, b_value, c_value, d_value)}
+                />
+              </>
             )}
           </div>
         </div>

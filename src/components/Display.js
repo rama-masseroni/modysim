@@ -45,13 +45,18 @@ export default function Display({ p, q, url, ev1, ev2, values }) {
     xx.multiply(values[0]).add(xy.multiply(values[1])),
     0
   );
+  console.log(xaux.toString());
   const xdot = xaux.solveFor("y");
   console.log(xdot.toString());
 
-  const yaux = new algebra.Equation(
+  let yaux = new algebra.Equation(
     xx.multiply(values[2]).add(xy.multiply(values[3])),
     0
   );
+  console.log(yaux.toString());
+  if (values[3] === 0)
+    yaux = new algebra.Equation(xx.multiply(values[2]).add(xy.multiply(1)), 0);
+
   const ydot = yaux.solveFor("y");
   console.log(ydot.toString());
 
@@ -69,7 +74,7 @@ export default function Display({ p, q, url, ev1, ev2, values }) {
         height: 455,
         grid: true,
         disableZoom: true,
-    
+
         xAxis: {
           label: "p - axis",
           domain: [-4, 4],
@@ -84,7 +89,7 @@ export default function Display({ p, q, url, ev1, ev2, values }) {
             graphType: "polyline",
             skipTip: true,
           },
-        ]
+        ],
       });
     } else {
       // delete options.data;
@@ -94,7 +99,7 @@ export default function Display({ p, q, url, ev1, ev2, values }) {
         height: 455,
         grid: true,
         disableZoom: true,
-    
+
         xAxis: {
           label: "p - axis",
           domain: [-4, 4],
@@ -148,11 +153,10 @@ export default function Display({ p, q, url, ev1, ev2, values }) {
             fnType: "vector",
             color: "green",
           },
-        ]
+        ],
       });
     }
     // console.log(options);
-
   }, [graphView]);
 
   return (

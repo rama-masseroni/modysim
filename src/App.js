@@ -80,7 +80,7 @@ export default function App() {
       x: p,
     };
 
-    if (p != 0 && q > math.evaluate("(x^2)/4", scope)) {
+    if (q > math.evaluate("(x^2)/4", scope)) {
       // alert(eigen_decomp.imaginaryEigenvalues);
       setIsImaginary(true);
       setSubmission(true);

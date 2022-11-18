@@ -19,6 +19,8 @@ export default function Display({ p, q, url, ev1, ev2, values }) {
   console.log(q_p_graph.toString());
   const graph = algebra.toTex(q_p_graph);
 
+
+
   const [graphView, setGraphView] = useState(false);
   // var options = {
   //   target: "#quadratic-with-options",
@@ -89,6 +91,12 @@ export default function Display({ p, q, url, ev1, ev2, values }) {
             graphType: "polyline",
             skipTip: true,
           },
+          {
+            points: [[pp, qq]],
+            fnType: "points",
+            graphType: "scatter",
+            color: "black",
+          },
         ],
       });
     } else {
@@ -126,7 +134,7 @@ export default function Display({ p, q, url, ev1, ev2, values }) {
           {
             points: [[pp, qq]],
             fnType: "points",
-            graphType: "polyline",
+            graphType: "scatter",
             color: "black",
           },
           {

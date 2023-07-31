@@ -1,6 +1,36 @@
+
+
+.generic_graphs{
+  width: 42.5vw;
+}
+
+.graphs_container {
+  height: 57vh;
+  background-color: darkorchid;
+  display: flex;
+  flex-direction: row;
+  height: 460px;
+}
+
+.equation {
+  height: 20vh;
+  display: flex;
+  /* flex-direction: row; */
+  align-items: center;
+  justify-content: center;
+  background-color: coral;
+}
+
+.autoparameters {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: inherit ;
+}
+
 .slider {
   width: 20vw;
-  margin-top: 4vh;
+  /* margin-top: 2vh; */
 }
 
 .App {
@@ -38,8 +68,8 @@
   background-color: gray;
   flex: 1;
   align-items: center;
-  
-  }
+  max-width: 450px;
+}
 
 .display {
   background-color: turquoise;

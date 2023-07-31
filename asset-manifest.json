@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/modysim/static/css/main.a4e419b8.css",
-    "main.js": "/modysim/static/js/main.e9d5c578.js",
+    "main.css": "/modysim/static/css/main.fdf7ed75.css",
+    "main.js": "/modysim/static/js/main.8bd27460.js",
     "static/js/787.ba2bf37e.chunk.js": "/modysim/static/js/787.ba2bf37e.chunk.js",
     "index.html": "/modysim/index.html",
-    "main.a4e419b8.css.map": "/modysim/static/css/main.a4e419b8.css.map",
-    "main.e9d5c578.js.map": "/modysim/static/js/main.e9d5c578.js.map",
+    "main.fdf7ed75.css.map": "/modysim/static/css/main.fdf7ed75.css.map",
+    "main.8bd27460.js.map": "/modysim/static/js/main.8bd27460.js.map",
     "787.ba2bf37e.chunk.js.map": "/modysim/static/js/787.ba2bf37e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.a4e419b8.css",
-    "static/js/main.e9d5c578.js"
+    "static/css/main.fdf7ed75.css",
+    "static/js/main.8bd27460.js"
   ]
 }

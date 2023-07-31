@@ -16,6 +16,7 @@
     "better-react-mathjax": "^2.0.2",
     "cloudinary-react": "^1.8.1",
     "function-plot": "^1.23.1",
+    "gh-pages": "^5.0.0",
     "katex": "^0.16.2",
     "mathjs": "^11.2.1",
     "mathlive": "^0.84.0",
